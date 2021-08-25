@@ -8,14 +8,14 @@ const App = () => {
   const addUserHandler = newUser => {
     setUser(prevUser => {
       const updatedUser = [...prevUser];
-      updatedUser.push({id: updatedUser.length+1, username: newUser.username, age: newUser.age});
+      updatedUser.push({id: updatedUser.length+1, ...newUser});
       return updatedUser;
     });
   }
 
   return ( 
     <div>
-        <UserInput onAddUser={addUserHandler} />
+      <UserInput onAddUser={addUserHandler} />
       {
         user && <UserList users={user} />
       }

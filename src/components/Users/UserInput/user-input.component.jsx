@@ -2,6 +2,8 @@ import { useState } from 'react';
 import Button from '../../UI/Button/button.component';
 import Card from '../../UI/Card/card.component';
 import ErrorModal from '../../UI/ErrorModal/error-modal.component';
+import Wrapper from '../../Helpers/wrapper.component';
+
 import styles from './user-input.module.css';
 
 const UserInput = ({ onAddUser }) => {
@@ -47,7 +49,7 @@ const UserInput = ({ onAddUser }) => {
     }
 
     return ( 
-        <div>
+        <Wrapper>
             { 
                 error && 
                     (<ErrorModal 
@@ -77,7 +79,7 @@ const UserInput = ({ onAddUser }) => {
                     <Button type='submit'>Add User</Button>
                 </form>
             </Card>
-        </div>
+        </Wrapper>
     );
 }
  

@@ -14,12 +14,12 @@ const App = () => {
   }
 
   return ( 
-    <div>
+    <>
       <UserInput onAddUser={addUserHandler} />
       {
         user && <UserList users={user} />
       }
-    </div>
+    </>
   );
 }
  

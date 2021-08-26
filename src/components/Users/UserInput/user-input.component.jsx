@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Button from '../../UI/Button/button.component';
 import Card from '../../UI/Card/card.component';
 import ErrorModal from '../../UI/ErrorModal/error-modal.component';
@@ -7,20 +7,16 @@ import Wrapper from '../../Helpers/wrapper.component';
 import styles from './user-input.module.css';
 
 const UserInput = ({ onAddUser }) => {
-    const [newUsername, setNewUsername] = useState('');
-    const [newAge, setNewAge] = useState('');
+    const nameInputRef = useRef();
+    const ageInputRef = useRef();
+
     const [error, setError] = useState();
-
-    const usernameHandler = event => {
-        setNewUsername(event.target.value);
-    }
-
-    const ageHandler = event => {
-        setNewAge(event.target.value);
-    }
 
     const formSubmitHandler = event => {
         event.preventDefault();
+        const newUsername = nameInputRef.current.value;
+        const newAge = ageInputRef.current.value;
+
         if(!newUsername.trim().length || !newAge.trim().length) {
             setError({
                 title: 'Invalid Input',
@@ -39,8 +35,9 @@ const UserInput = ({ onAddUser }) => {
                 age: +newAge
             }
             onAddUser(newUser);
-            setNewUsername('');
-            setNewAge('');
+            // Direct manipulation of DOM which shouldn't be done, but in this case it was okay because we are resetting the value in the input field
+            nameInputRef.current.value = '';
+            ageInputRef.current.value = '';
         }
     }
 
@@ -52,29 +49,15 @@ const UserInput = ({ onAddUser }) => {
         <Wrapper>
             { 
                 error && 
-                    (<ErrorModal 
-                        title={error.title} 
-                        message={error.message} 
-                        onConfirm={errorHandler}
-                    />)
+                    <ErrorModal title={error.title} message={error.message} onConfirm={errorHandler}/>
             }
             <Card className={styles.inputForm} >
                 <form onSubmit={formSubmitHandler}>
                         <label htmlFor='username'>Username</label>
-                        <input 
-                            id='username' 
-                            type="text" 
-                            value={newUsername} 
-                            onChange={usernameHandler} 
-                        />
+                        <input id='username' type="text" ref={nameInputRef} />
 
                         <label htmlFor='age'>Age(Years)</label>
-                        <input 
-                            id='id' 
-                            type="number" 
-                            value={newAge} 
-                            onChange={ageHandler}
-                        />
+                        <input id='id' type="number" ref={ageInputRef} />
 
                     <Button type='submit'>Add User</Button>
                 </form>
@@ -84,3 +67,6 @@ const UserInput = ({ onAddUser }) => {
 }
  
 export default UserInput;
+
+
+// Can use ref when you quickly need to read something from input field only, no other operation is needed to do on them.

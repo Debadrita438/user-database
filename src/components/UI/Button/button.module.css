@@ -8,6 +8,7 @@
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.26);
     cursor: pointer;
     margin-top: 10px;
+    color: white;
 }
 
 .button:hover, .button:active {
